@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="八仙性格测试：15 道奇遇题，测出与你性格最相似的八仙。" />
+    <title>八仙性格测试</title>
+    <script>
+      // 兼容部署路径末尾带不带斜杠，以及直接双击打开的本地文件。
+      const base = document.createElement("base");
+      const path = window.location.pathname;
+      base.href = window.location.protocol === "file:"
+        ? "./"
+        : (path.endsWith("/") ? path : (path.includes(".") ? path.slice(0, path.lastIndexOf("/") + 1) : `${path}/`));
+      document.head.appendChild(base);
+    </script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main id="app" aria-live="polite"></main>
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
+
