@@ -67,7 +67,7 @@
             <p class="subtitle">15 道奇遇题，拆解你的勇敢、洒脱与内在底色。</p>
             <div class="intro-card card">
               <div class="card-kicker">HOW IT WORKS / 测试方式</div>
-              <p>每一次选择，都会留下一个人格信号。最后我们会把这些信号汇总成六个维度，并用性格坐标解释你的主人格。</p>
+              <p>人生是一条漫漫长路，沿途总会遇见岔路、同行者和没有标准答案的时刻。就像八仙各自走出不同的修行路，你也会在一次次取舍里，决定向哪里出发、为谁停留、坚持什么，又愿意放下什么。接下来，请凭直觉做出你的选择，看看这段旅程最终会把你带向哪一位八仙。</p>
               <div class="intro-meta"><span>情境选择</span><span>六维百分比</span><span>散点坐标</span></div>
             </div>
             <button class="primary-button" data-action="start">开启思想实验 <span>↗</span></button>
