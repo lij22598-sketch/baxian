@@ -67,7 +67,7 @@
             <p class="subtitle">15 道奇遇题，拆解你的勇敢、洒脱与内在底色。</p>
             <div class="intro-card card">
               <div class="card-kicker">HOW IT WORKS / 测试方式</div>
-              <p>人生是一条漫漫长路，沿途总会遇见岔路、同行者和没有标准答案的时刻。就像八仙各自走出不同的修行路，你也会在一次次取舍里，决定向哪里出发、为谁停留、坚持什么，又愿意放下什么。接下来，请凭直觉做出你的选择，看看这段旅程最终会把你带向哪一位八仙。</p>
+              <p>接下来，我们会一起走过 15 个岔路口。你将面对未知、做出取舍、选择同行者，也会在每一次决定里，逐渐看见真正的自己。没有标准答案，凭第一直觉出发，看看走到最后，哪一位八仙与你最像。</p>
               <div class="intro-meta"><span>情境选择</span><span>六维百分比</span><span>散点坐标</span></div>
             </div>
             <button class="primary-button" data-action="start">开启思想实验 <span>↗</span></button>
@@ -184,12 +184,10 @@
     const winner = ranking[0];
     const profile = data.profiles[winner];
     const dimensionScores = getDimensionScores(winner);
-    const evidence = getEvidence(dimensionScores);
     app.innerHTML = `
       <section class="page result-page">
         <div class="topline"><span>八仙 · PERSONALITY MATRIX</span><span>REPORT / COMPLETE</span></div>
-        <div class="result-heading"><p class="eyebrow">YOUR RESULT · 你的主人格</p><h1>${escapeHtml(winner)}</h1><p class="result-title">${escapeHtml(profile.title)}</p><p class="result-lead">你的选择指向一种${escapeHtml(profile.keywords.split(" · ")[0])}的内在底色。下面是这份结论的组成证据。</p></div>
-        <div class="proof-card card"><div><span class="card-kicker">WHY THIS RESULT / 结论怎么来的</span><h2>你的选择，<br /><em>汇成一个人格。</em></h2></div><p>15 道情境选择 → 六维倾向 → 八仙画像，最终生成你的主人格。</p><div class="evidence-list">${evidence.map((item) => `<div class="evidence-item"><b>${dimensions[item.key].label}</b><span>${escapeHtml(item.title)}：${escapeHtml(item.answer)}</span></div>`).join("")}</div></div>
+        <div class="result-heading"><p class="eyebrow">YOUR RESULT · 你的主人格</p><h1>${escapeHtml(winner)}</h1><p class="result-title">${escapeHtml(profile.title)}</p><p class="result-lead">你已经走过十五个岔路口。一路上，你如何面对未知、选择同行者、守住信念，也决定了你会成为怎样的人。现在，答案落在了一位八仙身上——看看这一次，命运把你带到了谁的身边。</p></div>
         <div class="result-grid">
           <div class="card dimension-card"><div class="card-kicker">SIX DIMENSIONS / 六维百分比</div><h2>你的性格构成</h2><p class="section-note">百分比代表本次选择中呈现出的相对倾向，不是能力高低。</p>${renderDimensionBars(dimensionScores)}</div>
           <div class="card diamond-card"><div class="card-kicker">PERSONALITY DIAMOND / 性格钻石图</div><h2>你的性格构成</h2><p class="section-note">六个维度的相对倾向。</p>${renderDiamond(dimensionScores)}</div>
