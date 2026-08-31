@@ -1,7 +1,7 @@
 (function () {
   const data = window.BAXIAN_DATA;
   const app = document.getElementById("app");
-  const state = { screen: "home", index: 0, answers: [], scores: {} };
+  const state = { screen: "home", index: 0, answers: [] };
 
   const dimensions = {
     courage: { label: "勇敢", note: "面对不确定时，愿意先迈出一步。" },
@@ -23,36 +23,30 @@
     "张果老": { courage: 50, freedom: 72, resilience: 68, empathy: 62, insight: 98, order: 58 }
   };
 
-  // 每道题的四个选项分别对应一个观察维度，用来解释结果，不改变原有八仙计分。
-  const dimensionSignals = [
-    ["courage", "freedom", "insight", "empathy"],
-    ["insight", "courage", "empathy", "freedom"],
-    ["courage", "insight", "empathy", "order"],
-    ["courage", "empathy", "insight", "freedom"],
-    ["empathy", "courage", "insight", "freedom"],
-    ["freedom", "insight", "empathy", "insight"],
-    ["courage", "freedom", "resilience", "insight"],
-    ["courage", "insight", "empathy", "order"],
-    ["order", "freedom", "insight", "courage"],
-    ["insight", "order", "freedom", "empathy"],
-    ["insight", "freedom", "courage", "empathy"],
-    ["order", "insight", "freedom", "courage"],
-    ["empathy", "courage", "order", "freedom"],
-    ["courage", "freedom", "empathy", "insight"],
-    ["order", "freedom", "courage", "empathy"]
+  // 15 道题覆盖六个维度的全部两两组合；每个维度恰好被测量 5 次。
+  // 每个选项只在本题的两个焦点维度上计分，0-2 分代表该选择呈现出的倾向强度。
+  const dimensionItems = [
+    { pair: ["courage", "freedom"], options: [{ courage: 2, freedom: 1 }, { courage: 1, freedom: 2 }, { courage: 0, freedom: 2 }, { courage: 1, freedom: 0 }] },
+    { pair: ["courage", "resilience"], options: [{ courage: 0, resilience: 2 }, { courage: 2, resilience: 1 }, { courage: 1, resilience: 1 }, { courage: 1, resilience: 0 }] },
+    { pair: ["courage", "empathy"], options: [{ courage: 2, empathy: 0 }, { courage: 1, empathy: 1 }, { courage: 0, empathy: 2 }, { courage: 1, empathy: 1 }] },
+    { pair: ["courage", "insight"], options: [{ courage: 2, insight: 0 }, { courage: 1, insight: 1 }, { courage: 0, insight: 2 }, { courage: 1, insight: 0 }] },
+    { pair: ["resilience", "empathy"], options: [{ resilience: 0, empathy: 2 }, { resilience: 2, empathy: 1 }, { resilience: 2, empathy: 0 }, { resilience: 0, empathy: 1 }] },
+    { pair: ["freedom", "empathy"], options: [{ freedom: 2, empathy: 1 }, { freedom: 0, empathy: 1 }, { freedom: 1, empathy: 2 }, { freedom: 2, empathy: 0 }] },
+    { pair: ["freedom", "insight"], options: [{ freedom: 1, insight: 0 }, { freedom: 2, insight: 0 }, { freedom: 0, insight: 2 }, { freedom: 2, insight: 1 }] },
+    { pair: ["courage", "order"], options: [{ courage: 2, order: 0 }, { courage: 1, order: 1 }, { courage: 1, order: 2 }, { courage: 0, order: 1 }] },
+    { pair: ["freedom", "order"], options: [{ freedom: 0, order: 2 }, { freedom: 2, order: 0 }, { freedom: 0, order: 2 }, { freedom: 2, order: 0 }] },
+    { pair: ["resilience", "insight"], options: [{ resilience: 1, insight: 1 }, { resilience: 1, insight: 2 }, { resilience: 0, insight: 2 }, { resilience: 2, insight: 0 }] },
+    { pair: ["freedom", "resilience"], options: [{ freedom: 0, resilience: 1 }, { freedom: 2, resilience: 1 }, { freedom: 1, resilience: 2 }, { freedom: 2, resilience: 0 }] },
+    { pair: ["insight", "order"], options: [{ insight: 0, order: 2 }, { insight: 2, order: 1 }, { insight: 1, order: 0 }, { insight: 2, order: 2 }] },
+    { pair: ["empathy", "insight"], options: [{ empathy: 1, insight: 2 }, { empathy: 0, insight: 1 }, { empathy: 2, insight: 1 }, { empathy: 1, insight: 2 }] },
+    { pair: ["empathy", "order"], options: [{ empathy: 0, order: 1 }, { empathy: 1, order: 0 }, { empathy: 2, order: 2 }, { empathy: 1, order: 0 }] },
+    { pair: ["resilience", "order"], options: [{ resilience: 0, order: 2 }, { resilience: 1, order: 0 }, { resilience: 1, order: 1 }, { resilience: 2, order: 1 }] }
   ];
 
   function escapeHtml(value) {
     return String(value).replace(/[&<>'"]/g, (char) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
     }[char]));
-  }
-
-  function scoreAnswer(questionIndex, optionIndex) {
-    const entries = data.scoreMap[questionIndex][optionIndex];
-    entries.forEach(([name, points]) => {
-      state.scores[name] = (state.scores[name] || 0) + points;
-    });
   }
 
   function renderHome() {
@@ -107,42 +101,42 @@
       </section>`;
   }
 
-  function getRanking() {
-    return Object.keys(data.profiles).sort((a, b) => {
-      const scoreDiff = (state.scores[b] || 0) - (state.scores[a] || 0);
-      return scoreDiff || a.localeCompare(b, "zh-CN");
-    });
-  }
-
-  function getDimensionScores(winner) {
-    const base = profileDimensions[winner];
+  function getDimensionScores() {
+    const totals = Object.fromEntries(Object.keys(dimensions).map((key) => [key, 0]));
     const counts = Object.fromEntries(Object.keys(dimensions).map((key) => [key, 0]));
     state.answers.forEach((option, index) => {
-      const key = dimensionSignals[index]?.[option];
-      if (key) counts[key] += 1;
+      const item = dimensionItems[index];
+      if (!item) return;
+      item.pair.forEach((key) => {
+        totals[key] += item.options[option]?.[key] || 0;
+        counts[key] += 1;
+      });
     });
-    const total = Math.max(1, state.answers.length);
-    return Object.fromEntries(Object.keys(dimensions).map((key) => [
-      key,
-      Math.round(base[key] * 0.68 + (counts[key] / total) * 100 * 0.32)
-    ]));
+    return Object.fromEntries(Object.keys(dimensions).map((key) => {
+      const maximum = Math.max(1, counts[key] * 2);
+      return [key, Math.round((totals[key] / maximum) * 100)];
+    }));
   }
 
-  function getEvidence(dimensionScores) {
-    return Object.keys(dimensions).sort((a, b) => dimensionScores[b] - dimensionScores[a]).slice(0, 3).map((key) => {
-      const questionIndex = state.answers.findIndex((option, index) => dimensionSignals[index]?.[option] === key);
-      const question = data.questions[questionIndex >= 0 ? questionIndex : 0];
-      const option = state.answers[questionIndex >= 0 ? questionIndex : 0] || 0;
-      return { key, title: question.title, answer: question.options[option] };
-    });
+  function getProfileDistance(userScores, profileScores) {
+    return Math.sqrt(Object.keys(dimensions).reduce((sum, key) => {
+      const difference = (userScores[key] || 0) - profileScores[key];
+      return sum + difference * difference;
+    }, 0));
   }
 
-  function renderDimensionBars(dimensionScores) {
-    return Object.keys(dimensions).map((key) => `
-      <div class="dimension-row">
-        <div class="dimension-name"><span>${dimensions[key].label}</span><small>${dimensions[key].note}</small></div>
-        <div class="dimension-track"><i style="width:${dimensionScores[key]}%"></i></div><b>${dimensionScores[key]}%</b>
-      </div>`).join("");
+  function getProfileSimilarity(userScores, profileScores) {
+    const meanDifference = Object.keys(dimensions).reduce((sum, key) => {
+      return sum + Math.abs((userScores[key] || 0) - profileScores[key]);
+    }, 0) / Object.keys(dimensions).length;
+    return Math.max(0, Math.round(100 - meanDifference));
+  }
+
+  function getRanking(dimensionScores = getDimensionScores()) {
+    return Object.keys(data.profiles).sort((a, b) => {
+      const distanceDiff = getProfileDistance(dimensionScores, profileDimensions[a]) - getProfileDistance(dimensionScores, profileDimensions[b]);
+      return distanceDiff || a.localeCompare(b, "zh-CN");
+    });
   }
 
   function renderDiamond(dimensionScores) {
@@ -214,19 +208,20 @@
   }
 
   function renderResult() {
-    const ranking = getRanking();
+    const dimensionScores = getDimensionScores();
+    const ranking = getRanking(dimensionScores);
     const winner = ranking[0];
     const profile = data.profiles[winner];
-    const dimensionScores = getDimensionScores(winner);
+    const similarity = getProfileSimilarity(dimensionScores, profileDimensions[winner]);
     app.innerHTML = `
       <section class="page result-page">
         <div class="topline"><span>八仙 · PERSONALITY MATRIX</span><span>REPORT / COMPLETE</span></div>
         <div class="result-heading"><p class="eyebrow">YOUR RESULT · 你的主人格</p><h1>${escapeHtml(winner)}</h1><p class="result-title">${escapeHtml(profile.title)}</p><p class="result-lead">你已经走过十五个岔路口。一路上，你如何面对未知、选择同行者、守住信念，也决定了你会成为怎样的人。现在，答案落在了一位八仙身上——看看这一次，命运把你带到了谁的身边。</p></div>
         <div class="result-grid">
           <div class="card diamond-card"><div class="card-kicker">PERSONALITY DIAMOND / 性格钻石图</div><h2>你的性格构成</h2><p class="section-note">六个维度的相对倾向。</p>${renderDiamond(dimensionScores)}</div>
-          <div class="card scatter-card"><div class="card-kicker">EIGHT IMMORTALS / 八仙散点图</div><h2>你落在哪里？</h2><p class="section-note">横轴是洒脱，纵轴是勇敢；八仙是参考位置。</p>${renderScatter(dimensionScores)}</div>
+          <div class="card scatter-card"><div class="card-kicker">EIGHT IMMORTALS / 八仙散点图</div><h2>你落在哪里？</h2><p class="section-note">展示勇敢 × 洒脱的二维切片；主人格依据六维距离。</p>${renderScatter(dimensionScores)}</div>
         </div>
-        <div class="card profile-card"><div class="profile-top"><div><div class="card-kicker">THE CORE / 主人格画像</div><h2>${escapeHtml(winner)} · ${escapeHtml(profile.title)}</h2><p class="keywords">${escapeHtml(profile.keywords)}</p></div><div class="score-stamp">主人格<br /><strong>${Math.max(...Object.values(dimensionScores))}%</strong></div></div><div class="profile-copy"><div><h3>你身上的光</h3><p>${escapeHtml(profile.strength)}</p></div><div><h3>留给自己的提醒</h3><p>${escapeHtml(profile.lesson)}</p></div></div><blockquote>“${escapeHtml(profile.quote)}”</blockquote></div>
+        <div class="card profile-card"><div class="profile-top"><div><div class="card-kicker">THE CORE / 主人格画像</div><h2>${escapeHtml(winner)} · ${escapeHtml(profile.title)}</h2><p class="keywords">${escapeHtml(profile.keywords)}</p></div><div class="score-stamp">画像相似度<br /><strong>${similarity}%</strong></div></div><div class="profile-copy"><div><h3>你身上的光</h3><p>${escapeHtml(profile.strength)}</p></div><div><h3>留给自己的提醒</h3><p>${escapeHtml(profile.lesson)}</p></div></div><blockquote>“${escapeHtml(profile.quote)}”</blockquote></div>
         <div class="actions"><button class="primary-button" data-action="share">复制分享链接 <span>↗</span></button><button class="secondary-button" data-action="restart">重新进入旅程</button></div><p class="hint" id="share-message">链接已准备好，复制后可以发给朋友。</p>
       </section>`;
   }
@@ -254,12 +249,12 @@
     const action = event.target.closest("[data-action]")?.dataset.action;
     const option = event.target.closest("[data-option]")?.dataset.option;
     if (action === "start") {
-      state.screen = "quiz"; state.index = 0; state.answers = []; state.scores = {}; render();
+      state.screen = "quiz"; state.index = 0; state.answers = []; render();
     } else if (option !== undefined && state.screen === "quiz") {
-      const selected = Number(option); state.answers.push(selected); scoreAnswer(state.index, selected);
+      const selected = Number(option); state.answers.push(selected);
       state.index += 1; state.screen = state.index >= data.questions.length ? "result" : "quiz"; render();
     } else if (action === "restart") {
-      state.screen = "home"; state.index = 0; state.answers = []; state.scores = {}; render();
+      state.screen = "home"; state.index = 0; state.answers = []; render();
     } else if (action === "share") share();
   });
 
