@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">八仙法器原创插画图鉴</title>
+  <desc id="desc">八件法器的暖色系原创插画：捆仙索、芭蕉扇、紫金葫芦、金蛟剪、笛子、阴阳板、花篮与渔鼓。</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff9ef"/><stop offset="1" stop-color="#f4e2cc"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff1a8"/><stop offset=".45" stop-color="#d79a3a"/><stop offset="1" stop-color="#8f4f28"/></linearGradient>
+    <linearGradient id="jade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e1c6ff"/><stop offset="1" stop-color="#7d51a5"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#7c4d32" flood-opacity=".18"/></filter>
+    <style>
+      .tile{fill:#fffdf8;stroke:#e4c9aa;stroke-width:2}.label{font:700 24px 'Microsoft YaHei',sans-serif;fill:#3c2b25}.sub{font:400 15px 'Microsoft YaHei',sans-serif;fill:#97715b}.line{fill:none;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="28" fill="url(#paper)"/>
+  <path d="M42 66h1116M42 694h1116" stroke="#c77b51" stroke-width="3" opacity=".55"/>
+  <text x="60" y="43" class="sub" letter-spacing="4">EIGHT ARTIFACTS · 八仙法器图鉴</text>
+  <g filter="url(#shadow)">
+    <rect class="tile" x="40" y="92" width="270" height="270" rx="20"/><rect class="tile" x="330" y="92" width="270" height="270" rx="20"/><rect class="tile" x="620" y="92" width="250" height="270" rx="20"/><rect class="tile" x="890" y="92" width="270" height="270" rx="20"/>
+    <rect class="tile" x="40" y="392" width="270" height="270" rx="20"/><rect class="tile" x="330" y="392" width="270" height="270" rx="20"/><rect class="tile" x="620" y="392" width="250" height="270" rx="20"/><rect class="tile" x="890" y="392" width="270" height="270" rx="20"/>
+  </g>
+  <!-- 捆仙索 -->
+  <g transform="translate(175 214)"><path d="M-62-46c-38 42-31 105 24 119 47 12 85-30 61-64-19-27-60-13-56 18 3 27 39 31 52 10" class="line" stroke="#b86243" stroke-width="16"/><path d="M-58-45c-29 42-20 91 20 101" class="line" stroke="#f2bc7b" stroke-width="4"/><circle cx="33" cy="14" r="15" fill="url(#gold)"/></g>
+  <!-- 芭蕉扇 -->
+  <g transform="translate(465 210)"><path d="M0 92L-5-36Q5-77 36-49l113 68q25 18 0 36L36 93Q5 113 0 92Z" fill="#88aa62" stroke="#54704c" stroke-width="4"/><path d="M10-42L7 90M35-28L31 78M62-13L56 64M91 2L82 50" class="line" stroke="#d6df9b" stroke-width="3"/><path d="M5 88q28 22 70 2" class="line" stroke="#b78040" stroke-width="9"/><circle cx="4" cy="91" r="9" fill="#e7b94e"/></g>
+  <!-- 紫金葫芦 -->
+  <g transform="translate(745 214)"><path d="M-7-60h28v27c42 18 52 64 30 97-26 39-96 32-110-13-10-32 9-68 39-84z" fill="url(#jade)" stroke="#633d83" stroke-width="5"/><path d="M-2-60q15-24 32 0" class="line" stroke="#e6bd64" stroke-width="10"/><path d="M-36-2q38 20 80 0M-43 35q48 22 91-2" class="line" stroke="#e9cb77" stroke-width="4" opacity=".8"/><path d="M-4-82h22" stroke="#5b385d" stroke-width="5"/></g>
+  <!-- 金蛟剪 -->
+  <g transform="translate(1025 214)"><path d="M-62-38L66 64M62-38L-66 64" class="line" stroke="url(#gold)" stroke-width="13"/><path d="M-9-6a35 35 0 1 1 18 0" class="line" stroke="#bd6a35" stroke-width="8"/><circle cx="-62" cy="-38" r="17" fill="#f4c968" stroke="#8c4b2a" stroke-width="5"/><circle cx="62" cy="-38" r="17" fill="#f4c968" stroke="#8c4b2a" stroke-width="5"/></g>
+  <!-- 笛子 -->
+  <g transform="translate(175 514)"><rect x="-96" y="-18" width="188" height="36" rx="18" fill="#b66a45" stroke="#713e35" stroke-width="5" transform="rotate(-13)"/><path d="M-55-31v30M-20-35v30M16-38v30M51-39v30" stroke="#f2d28a" stroke-width="8" transform="rotate(-13)"/><path d="M77-38l30 30" class="line" stroke="#e1aa52" stroke-width="8" transform="rotate(-13)"/></g>
+  <!-- 阴阳板 -->
+  <g transform="translate(465 524)"><rect x="-54" y="-82" width="42" height="164" rx="15" fill="url(#gold)" stroke="#80522e" stroke-width="5" transform="rotate(-12)"/><rect x="10" y="-82" width="42" height="164" rx="15" fill="#453a61" stroke="#2d2948" stroke-width="5" transform="rotate(12)"/><circle cx="-33" cy="0" r="17" fill="#fff0ad" opacity=".9"/><circle cx="32" cy="0" r="17" fill="#a8a1df" opacity=".85"/></g>
+  <!-- 花篮 -->
+  <g transform="translate(745 524)"><path d="M-82-29Q0 20 82-29L59 67Q0 96-59 67Z" fill="#b47555" stroke="#713f39" stroke-width="5"/><path d="M-65-25Q0-104 65-25" class="line" stroke="#749d62" stroke-width="15"/><path d="M-51 19q50 24 102 0M-47 45q47 22 94 0" class="line" stroke="#e6bd77" stroke-width="6"/><circle cx="-45" cy="-33" r="19" fill="#e58675"/><circle cx="0" cy="-59" r="21" fill="#8fb875"/><circle cx="45" cy="-33" r="19" fill="#e5bd67"/></g>
+  <!-- 渔鼓 -->
+  <g transform="translate(1025 524)"><ellipse cx="0" cy="-45" rx="64" ry="29" fill="#f2d99d" stroke="#8b562d" stroke-width="6"/><path d="M-64-45v70q4 35 64 35t64-35v-70" fill="#b96845" stroke="#8b562d" stroke-width="6"/><ellipse cx="0" cy="25" rx="64" ry="29" fill="#d88956" stroke="#8b562d" stroke-width="6"/><path d="M76-54l-42 23M77-30l-43 16" class="line" stroke="#9b6135" stroke-width="6"/><circle cx="-36" cy="-47" r="9" fill="#c77b51"/><circle cx="36" cy="-47" r="9" fill="#c77b51"/></g>
+  <g text-anchor="middle">
+    <text x="175" y="335" class="label">捆仙索</text><text x="175" y="353" class="sub">吕洞宾 · 果断与担当</text>
+    <text x="465" y="335" class="label">芭蕉扇</text><text x="465" y="353" class="sub">钟离权 · 乐观与调和</text>
+    <text x="745" y="335" class="label">紫金葫芦</text><text x="745" y="353" class="sub">铁拐李 · 坚韧与承受</text>
+    <text x="1025" y="335" class="label">金蛟剪</text><text x="1025" y="353" class="sub">何仙姑 · 敏锐与守护</text>
+    <text x="175" y="635" class="label">笛子</text><text x="175" y="653" class="sub">韩湘子 · 自由与表达</text>
+    <text x="465" y="635" class="label">阴阳板</text><text x="465" y="653" class="sub">曹国舅 · 原则与秩序</text>
+    <text x="745" y="635" class="label">花篮</text><text x="745" y="653" class="sub">蓝采和 · 洒脱与灵动</text>
+    <text x="1025" y="635" class="label">渔鼓</text><text x="1025" y="653" class="sub">张果老 · 洞察与节奏</text>
+  </g>
+</svg>
