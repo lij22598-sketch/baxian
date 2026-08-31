@@ -23,6 +23,17 @@
     "张果老": { courage: 50, freedom: 72, resilience: 68, empathy: 62, insight: 98, order: 58 }
   };
 
+  const artifacts = [
+    { name: "吕洞宾", item: "捆仙索", mark: "索", note: "果断与担当" },
+    { name: "钟离权", item: "芭蕉扇", mark: "扇", note: "乐观与调和" },
+    { name: "铁拐李", item: "紫金葫芦", mark: "葫", note: "坚韧与承受" },
+    { name: "何仙姑", item: "金蛟剪", mark: "剪", note: "敏锐与守护" },
+    { name: "韩湘子", item: "笛子", mark: "笛", note: "自由与表达" },
+    { name: "曹国舅", item: "阴阳板", mark: "板", note: "原则与秩序" },
+    { name: "蓝采和", item: "花篮", mark: "篮", note: "洒脱与灵动" },
+    { name: "张果老", item: "渔鼓", mark: "鼓", note: "洞察与节奏" }
+  ];
+
   // 15 道题覆盖六个维度的全部两两组合；每个维度恰好被测量 5 次。
   // 每个选项只在本题的两个焦点维度上计分，0-2 分代表该选择呈现出的倾向强度。
   const dimensionItems = [
@@ -62,7 +73,7 @@
             <div class="intro-card card">
               <div class="card-kicker">HOW IT WORKS / 测试方式</div>
               <p>接下来，我们会一起走过 15 个岔路口。你将面对未知、做出取舍、选择同行者，也会在每一次决定里，逐渐看见真正的自己。没有标准答案，凭第一直觉出发，看看走到最后，哪一位八仙与你最像。</p>
-              <div class="intro-meta"><span>情境选择</span><span>性格钻石图</span><span>八仙散点图</span></div>
+              <div class="intro-meta"><span>情境选择</span><span>性格钻石图</span><span>八仙法器图鉴</span></div>
             </div>
             <button class="primary-button" data-action="start">开启思想实验 <span>↗</span></button>
             <p class="hint">预计用时 3 分钟 · 结果仅供自我探索，不构成心理诊断</p>
@@ -173,6 +184,14 @@
     </div>`;
   }
 
+  function renderArtifacts(winner) {
+    return `<div class="artifact-grid">${artifacts.map((artifact) => `
+      <div class="artifact-item${artifact.name === winner ? " is-current" : ""}">
+        <span class="artifact-mark">${artifact.mark}</span>
+        <div><strong>${escapeHtml(artifact.item)}</strong><small>${escapeHtml(artifact.name)} · ${escapeHtml(artifact.note)}</small></div>
+      </div>`).join("")}</div>`;
+  }
+
   function renderResult() {
     const dimensionScores = getDimensionScores();
     const ranking = getRanking(dimensionScores);
@@ -185,6 +204,7 @@
         <div class="result-heading"><p class="eyebrow">YOUR RESULT · 你的主人格</p><h1>${escapeHtml(winner)}</h1><p class="result-title">${escapeHtml(profile.title)}</p><p class="result-lead">你已经走过十五个岔路口。一路上，你如何面对未知、选择同行者、守住信念，也决定了你会成为怎样的人。现在，答案落在了一位八仙身上——看看这一次，命运把你带到了谁的身边。</p></div>
         <div class="result-grid">
           <div class="card diamond-card"><div class="card-kicker">PERSONALITY DIAMOND / 性格钻石图</div><h2>你的性格轮廓</h2><p class="section-note">六个维度共同勾勒你的性格轮廓，再与八仙画像进行整体比较。</p>${renderDiamond(dimensionScores)}</div>
+          <div class="card artifact-card"><div class="card-kicker">EIGHT ARTIFACTS / 八仙法器</div><h2>每一位，都有自己的法器</h2><p class="section-note">电影《八仙！》公开设定中的八件法器，也像八种不同的选择方式。</p>${renderArtifacts(winner)}</div>
         </div>
         <div class="card profile-card"><div class="profile-top"><div><div class="card-kicker">THE CORE / 主人格画像</div><h2>${escapeHtml(winner)} · ${escapeHtml(profile.title)}</h2><p class="keywords">${escapeHtml(profile.keywords)}</p></div><div class="score-stamp">画像相似度<br /><strong>${similarity}%</strong></div></div><div class="profile-copy"><div><h3>你身上的光</h3><p>${escapeHtml(profile.strength)}</p></div><div><h3>留给自己的提醒</h3><p>${escapeHtml(profile.lesson)}</p></div></div><blockquote>“${escapeHtml(profile.quote)}”</blockquote></div>
         <div class="actions"><button class="primary-button" data-action="share">复制分享链接 <span>↗</span></button><button class="secondary-button" data-action="restart">重新进入旅程</button></div><p class="hint" id="share-message">链接已准备好，复制后可以发给朋友。</p>
