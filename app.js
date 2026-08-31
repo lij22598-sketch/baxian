@@ -179,6 +179,40 @@
     </div>`;
   }
 
+  function renderScatter(dimensionScores) {
+    const plot = { left: 54, top: 20, width: 360, height: 190 };
+    const x = (value) => plot.left + (value / 100) * plot.width;
+    const y = (value) => plot.top + plot.height - (value / 100) * plot.height;
+    const points = Object.entries(profileDimensions).map(([name, values]) => `
+      <g class="scatter-point profile-point">
+        <circle cx="${x(values.freedom)}" cy="${y(values.courage)}" r="4"></circle>
+        <text x="${x(values.freedom) + 7}" y="${y(values.courage) + 4}">${escapeHtml(name)}</text>
+      </g>`).join("");
+    return `<div class="scatter-wrap">
+      <svg class="scatter" viewBox="0 0 470 255" role="img" aria-label="八仙性格散点图">
+        <g class="grid-lines">
+          <line x1="${plot.left}" y1="${y(25)}" x2="${plot.left + plot.width}" y2="${y(25)}"></line>
+          <line x1="${plot.left}" y1="${y(50)}" x2="${plot.left + plot.width}" y2="${y(50)}"></line>
+          <line x1="${plot.left}" y1="${y(75)}" x2="${plot.left + plot.width}" y2="${y(75)}"></line>
+          <line x1="${x(25)}" y1="${plot.top}" x2="${x(25)}" y2="${plot.top + plot.height}"></line>
+          <line x1="${x(50)}" y1="${plot.top}" x2="${x(50)}" y2="${plot.top + plot.height}"></line>
+          <line x1="${x(75)}" y1="${plot.top}" x2="${x(75)}" y2="${plot.top + plot.height}"></line>
+        </g>
+        <line class="axis" x1="${plot.left}" y1="${plot.top + plot.height}" x2="${plot.left + plot.width}" y2="${plot.top + plot.height}"></line>
+        <line class="axis" x1="${plot.left}" y1="${plot.top}" x2="${plot.left}" y2="${plot.top + plot.height}"></line>
+        ${points}
+        <g class="user-point">
+          <circle cx="${x(dimensionScores.freedom)}" cy="${y(dimensionScores.courage)}" r="9"></circle>
+          <circle cx="${x(dimensionScores.freedom)}" cy="${y(dimensionScores.courage)}" r="3"></circle>
+          <text x="${x(dimensionScores.freedom) + 12}" y="${y(dimensionScores.courage) - 8}">你</text>
+        </g>
+        <text class="axis-label" x="${plot.left + plot.width - 36}" y="${plot.top + plot.height + 28}">洒脱度 →</text>
+        <text class="axis-label" x="10" y="${plot.top + 4}">勇敢度 ↑</text>
+      </svg>
+      <div class="scatter-legend"><span><i class="legend-user"></i>你的坐标</span><span><i class="legend-profile"></i>八仙坐标</span></div>
+    </div>`;
+  }
+
   function renderResult() {
     const ranking = getRanking();
     const winner = ranking[0];
@@ -189,8 +223,8 @@
         <div class="topline"><span>八仙 · PERSONALITY MATRIX</span><span>REPORT / COMPLETE</span></div>
         <div class="result-heading"><p class="eyebrow">YOUR RESULT · 你的主人格</p><h1>${escapeHtml(winner)}</h1><p class="result-title">${escapeHtml(profile.title)}</p><p class="result-lead">你已经走过十五个岔路口。一路上，你如何面对未知、选择同行者、守住信念，也决定了你会成为怎样的人。现在，答案落在了一位八仙身上——看看这一次，命运把你带到了谁的身边。</p></div>
         <div class="result-grid">
-          <div class="card dimension-card"><div class="card-kicker">SIX DIMENSIONS / 六维百分比</div><h2>你的性格构成</h2><p class="section-note">百分比代表本次选择中呈现出的相对倾向，不是能力高低。</p>${renderDimensionBars(dimensionScores)}</div>
           <div class="card diamond-card"><div class="card-kicker">PERSONALITY DIAMOND / 性格钻石图</div><h2>你的性格构成</h2><p class="section-note">六个维度的相对倾向。</p>${renderDiamond(dimensionScores)}</div>
+          <div class="card scatter-card"><div class="card-kicker">EIGHT IMMORTALS / 八仙散点图</div><h2>你落在哪里？</h2><p class="section-note">横轴是洒脱，纵轴是勇敢；八仙是参考位置。</p>${renderScatter(dimensionScores)}</div>
         </div>
         <div class="card profile-card"><div class="profile-top"><div><div class="card-kicker">THE CORE / 主人格画像</div><h2>${escapeHtml(winner)} · ${escapeHtml(profile.title)}</h2><p class="keywords">${escapeHtml(profile.keywords)}</p></div><div class="score-stamp">主人格<br /><strong>${Math.max(...Object.values(dimensionScores))}%</strong></div></div><div class="profile-copy"><div><h3>你身上的光</h3><p>${escapeHtml(profile.strength)}</p></div><div><h3>留给自己的提醒</h3><p>${escapeHtml(profile.lesson)}</p></div></div><blockquote>“${escapeHtml(profile.quote)}”</blockquote></div>
         <div class="actions"><button class="primary-button" data-action="share">复制分享链接 <span>↗</span></button><button class="secondary-button" data-action="restart">重新进入旅程</button></div><p class="hint" id="share-message">链接已准备好，复制后可以发给朋友。</p>
