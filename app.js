@@ -185,11 +185,24 @@
   }
 
   function renderArtifacts(winner) {
-    return `<div class="artifact-gallery-frame"><img class="artifact-gallery" src="assets/baxian-artifacts-gallery.svg" alt="八仙法器原创插画图鉴" /></div>
-      <div class="artifact-captions">${artifacts.map((artifact, index) => `
-        <div class="artifact-caption${artifact.name === winner ? " is-current" : ""}">
-          <span>${String(index + 1).padStart(2, "0")}</span><div><strong>${escapeHtml(artifact.item)}</strong><small>${escapeHtml(artifact.name)} · ${escapeHtml(artifact.note)}</small></div>
-        </div>`).join("")}</div>`;
+    const winnerIndex = artifacts.findIndex((artifact) => artifact.name === winner);
+    const current = artifacts[winnerIndex];
+    const edgeArtifacts = artifacts.filter((artifact) => artifact.name !== winner);
+    const artStyle = (index) => `--artifact-x:${(index % 4) * 33.333}%;--artifact-y:${index > 3 ? 100 : 0}%`;
+    const artVisual = (artifact, index, extraClass) => `<div class="artifact-visual ${extraClass}" style="${artStyle(index)}" role="img" aria-label="${escapeHtml(artifact.item)}插画"></div>`;
+    return `<div class="artifact-stage">
+        <div class="artifact-center">
+          ${artVisual(current, winnerIndex, "artifact-visual-center")}
+          <p class="artifact-center-kicker">你的对应法器</p>
+          <strong>${escapeHtml(current.item)}</strong>
+          <small>${escapeHtml(current.name)} · ${escapeHtml(current.note)}</small>
+        </div>
+        ${edgeArtifacts.map((artifact, index) => {
+          const originalIndex = artifacts.findIndex((item) => item.name === artifact.name);
+          return `<div class="artifact-node artifact-node-${index}">${artVisual(artifact, originalIndex, "artifact-visual-edge")}<strong>${escapeHtml(artifact.item)}</strong><small>${escapeHtml(artifact.name)}</small></div>`;
+        }).join("")}
+        <p class="artifact-stage-caption">八件法器环绕中央主人格，像八种不同的选择方式。</p>
+      </div>`;
   }
 
   function renderResult() {
