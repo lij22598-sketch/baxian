@@ -185,11 +185,11 @@
   }
 
   function renderArtifacts(winner) {
-    return `<div class="artifact-grid">${artifacts.map((artifact) => `
-      <div class="artifact-item${artifact.name === winner ? " is-current" : ""}">
-        <span class="artifact-mark">${artifact.mark}</span>
-        <div><strong>${escapeHtml(artifact.item)}</strong><small>${escapeHtml(artifact.name)} · ${escapeHtml(artifact.note)}</small></div>
-      </div>`).join("")}</div>`;
+    return `<div class="artifact-gallery-frame"><img class="artifact-gallery" src="assets/baxian-artifacts-gallery.png" alt="八仙法器原创插画图鉴" /></div>
+      <div class="artifact-captions">${artifacts.map((artifact, index) => `
+        <div class="artifact-caption${artifact.name === winner ? " is-current" : ""}">
+          <span>${String(index + 1).padStart(2, "0")}</span><div><strong>${escapeHtml(artifact.item)}</strong><small>${escapeHtml(artifact.name)} · ${escapeHtml(artifact.note)}</small></div>
+        </div>`).join("")}</div>`;
   }
 
   function renderResult() {
