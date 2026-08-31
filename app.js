@@ -68,7 +68,7 @@
             <div class="intro-card card">
               <div class="card-kicker">HOW IT WORKS / 测试方式</div>
               <p>接下来，我们会一起走过 15 个岔路口。你将面对未知、做出取舍、选择同行者，也会在每一次决定里，逐渐看见真正的自己。没有标准答案，凭第一直觉出发，看看走到最后，哪一位八仙与你最像。</p>
-              <div class="intro-meta"><span>情境选择</span><span>六维百分比</span><span>散点坐标</span></div>
+              <div class="intro-meta"><span>情境选择</span><span>性格钻石图</span><span>八仙散点图</span></div>
             </div>
             <button class="primary-button" data-action="start">开启思想实验 <span>↗</span></button>
             <p class="hint">预计用时 3 分钟 · 结果仅供自我探索，不构成心理诊断</p>
