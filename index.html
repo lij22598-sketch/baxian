@@ -11,15 +11,14 @@
       const path = window.location.pathname;
       base.href = window.location.protocol === "file:"
         ? "./"
-        : (path.endsWith("/") ? path : (path.includes(".") ? path.slice(0, path.lastIndexOf("/") + 1) : `${path}/`));
+        : (path.endsWith("/") ? path : (path.includes(".") ? path.slice(0, path.lastIndexOf("/") + 1) : path + "/"));
       document.head.appendChild(base);
     </script>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./style.css?v=20260902" />
   </head>
   <body>
     <main id="app" aria-live="polite"></main>
-    <script src="./data.js"></script>
-    <script src="./app.js"></script>
+    <script src="./data.js?v=20260902"></script>
+    <script src="./app.js?v=20260902"></script>
   </body>
 </html>
-
